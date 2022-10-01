@@ -1,6 +1,22 @@
 ﻿using System;
 public static class Kata
 {
+    public static Tuple<bool, int> isNegativeBigger(int length, string a, string b)
+    {
+        //a negative, b positive
+        for (int i = 0; i < length; i++)
+        {
+            if (Char.GetNumericValue(a[i]) > Char.GetNumericValue(b[i]))
+                return Tuple.Create(true, 1);
+            else if (Char.GetNumericValue(a[i]) < Char.GetNumericValue(b[i]))
+                return Tuple.Create(false, 1);
+            else
+                continue;
+        }
+
+        return Tuple.Create(false, 0);
+    }
+
     public static Tuple<string, bool> equalStrAdd(int length, string a, string b)
     {
         string answer = "";
@@ -22,6 +38,16 @@ public static class Kata
             answer = answer.Insert(0, x.ToString());
         }
         return Tuple.Create(answer, rmndr);
+    }
+
+    public static string equalStrSub(int length, string a, string b)
+    {
+        //a negative, b positive
+        var decision = isNegativeBigger(length, a, b);
+        if (decision.Item2 == 0)
+            return "0";
+        string answer = "";
+        return answer;
     }
 
     public static string notEqualSameSign(string a, string b, int bLength, int aLength)
@@ -73,6 +99,17 @@ public static class Kata
         return "";
     }
 
+    public static string diffSigns(string a, string b)
+    {
+        //a negative, b positive
+        int lengthA = a.Length;
+        int lengthB = b.Length;
+
+        if (lengthA == lengthB)
+            return equalStrSub(lengthB, a, b);
+        return "";
+    }
+
     public static string sumStrings(string a, string b)
     {
         if (a[0] != '-' && b[0] != '-')
@@ -89,11 +126,13 @@ public static class Kata
         }
         else if (a[0] == '-')
         {
-            
+            a = a.Remove(0, 1);
+            return diffSigns(a, b);
         }
         else if (b[0] == '-')
         {
-            
+            b = b.Remove(0, 1);
+            return diffSigns(b, a);
         }
         return "";
 
@@ -111,5 +150,7 @@ class Program
         Console.WriteLine(Kata.sumStrings("-999", "19"));
         Console.WriteLine(Kata.sumStrings("133", "-13"));
         Console.WriteLine(Kata.sumStrings("-32", "12"));
+        Console.WriteLine(Kata.sumStrings("12", "-12"));
+        Console.WriteLine(Kata.sumStrings("-12", "12"));
     }
 }
