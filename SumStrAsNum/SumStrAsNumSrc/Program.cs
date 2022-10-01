@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-class Kata
+public class Kata
 {
     public static string sumStrings(string a, string b)
     {
