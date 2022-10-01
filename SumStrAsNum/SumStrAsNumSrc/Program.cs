@@ -1,7 +1,7 @@
 ﻿using System;
 public static class Kata
 {
-    public static Tuple<string, bool> equalStr(int length, string a, string b)
+    public static Tuple<string, bool> equalStrAdd(int length, string a, string b)
     {
         string answer = "";
         bool rmndr = false;
@@ -24,10 +24,10 @@ public static class Kata
         return Tuple.Create(answer, rmndr);
     }
 
-    public static string notEqual(string a, string b, int bLength, int aLength)
+    public static string notEqualSameSign(string a, string b, int bLength, int aLength)
     {
         bLength -= aLength;
-        var tpl = equalStr(a.Length, a, b.Substring(bLength));
+        var tpl = equalStrAdd(a.Length, a, b.Substring(bLength));
         string answer = tpl.Item1;
         bool rmndr = tpl.Item2;
         bLength -= 1;
@@ -50,14 +50,13 @@ public static class Kata
             answer = answer.Insert(0, 1.ToString());
         return answer;
     }
-
-    public static string positiveNums(string a, string b)
+    public static string sameSigns(string a, string b)
     {
         int aLength = a.Length;
         int bLength = b.Length;
         if (aLength == bLength)
         {
-            var tpl = equalStr(a.Length, a, b);
+            var tpl = equalStrAdd(a.Length, a, b);
             string answer = tpl.Item1;
             if (tpl.Item2)
                 answer = answer.Insert(0, 1.ToString());
@@ -65,32 +64,36 @@ public static class Kata
         }
         else if (bLength > aLength)
         {
-            return notEqual(a, b, bLength, aLength);
+            return notEqualSameSign(a, b, bLength, aLength);
         }
         else if (aLength > bLength)
         {
-            return notEqual(b, a, aLength, bLength);
+            return notEqualSameSign(b, a, aLength, bLength);
         }
         return "";
     }
+
     public static string sumStrings(string a, string b)
     {
-        //int result = Int64.Parse(a) + Int32.Parse(b);
-        //return result.ToString();
-
-        // all this one solution works only for positive values
-        //BigInteger
         if (a[0] != '-' && b[0] != '-')
         {
-            return positiveNums(a, b);
+            return sameSigns(a, b);
         }
         else if (a[0] == '-' && b[0] == '-')
         {
             a = a.Remove(0, 1);
             b = b.Remove(0, 1);
-            string answer = positiveNums(a, b);
+            string answer = sameSigns(a, b);
             answer = answer.Insert(0, '-'.ToString());
             return answer;
+        }
+        else if (a[0] == '-')
+        {
+            
+        }
+        else if (b[0] == '-')
+        {
+            
         }
         return "";
 
@@ -105,5 +108,8 @@ class Program
         Console.WriteLine(Kata.sumStrings("999", "211"));
         Console.WriteLine(Kata.sumStrings("13", "999"));
         Console.WriteLine(Kata.sumStrings("-99", "-9"));
+        Console.WriteLine(Kata.sumStrings("-999", "19"));
+        Console.WriteLine(Kata.sumStrings("133", "-13"));
+        Console.WriteLine(Kata.sumStrings("-32", "12"));
     }
 }
