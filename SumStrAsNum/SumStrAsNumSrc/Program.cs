@@ -7,7 +7,7 @@ public class Kata
     {
         if (String.IsNullOrEmpty(a))
         {
-            BigInteger onlyB= BigInteger.Parse(b);
+            BigInteger onlyB = BigInteger.Parse(b);
             return onlyB.ToString();
         } else if (String.IsNullOrEmpty(b))
         {
