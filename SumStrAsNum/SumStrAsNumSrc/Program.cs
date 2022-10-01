@@ -38,6 +38,7 @@ public static class Kata
             }
             answer = answer.Insert(0, x.ToString());
         }
+
         return Tuple.Create(answer, rmndr);
     }
 
@@ -75,11 +76,13 @@ public static class Kata
             double x = Char.GetNumericValue(a[decision.Item3]) - Char.GetNumericValue(b[decision.Item3]);
             if (flag)
                 x -= 1;
-            answer = answer.Insert(0, x.ToString());
+            if (x != 0)
+                answer = answer.Insert(0, x.ToString());
         }
 
         if (decision.Item1)
             answer = answer.Insert(0, '-'.ToString());
+
         return answer;
     }
 
@@ -107,12 +110,35 @@ public static class Kata
         }
         if (rmndr)
             answer = answer.Insert(0, 1.ToString());
+
         return answer;
     }
 
-    public static string notEqualDiffSigns()
+    public static string notEqualDiffSigns(string a, string b, int lengthA, int lengthB)
     {
-        return "";
+        //a longer, b shorter
+        string answer = "";
+        bool flag = false;
+        int i = lengthA - 1;
+        for (int q = lengthB - 1; q > -1; --q, --i)
+        {
+            double xA = Char.GetNumericValue(a[i]);
+            if (flag)
+                xA -= 1;
+            double xB = Char.GetNumericValue(b[q]);
+            double x = xA - xB;
+            if (x < 0)
+            {
+                x += 10;
+                flag = true;
+            }
+            answer = answer.Insert(0, x.ToString());
+        }
+
+        for (; i > -1; --i)
+            answer = answer.Insert(0, Char.GetNumericValue(a[i]).ToString());
+
+        return answer;
     }
 
     public static string sameSigns(string a, string b)
@@ -146,13 +172,31 @@ public static class Kata
 
         if (lengthA == lengthB)
             return equalStrSub(lengthB, a, b);
+        else if (lengthA > lengthB)
+        {
+            string answer = notEqualDiffSigns(a, b, lengthA, lengthB);
+            answer = answer.Insert(0, '-'.ToString());
+
+            return answer;
+        }
+        else if (lengthB > lengthA)
+            return notEqualDiffSigns(b, a, lengthB, lengthA);
         return "";
     }
 
     public static string sumStrings(string a, string b)
     {
+        if (String.IsNullOrEmpty(a))
+            return b;
+        else if (String.IsNullOrEmpty(b))
+            return a;
+
         if (a[0] != '-' && b[0] != '-')
         {
+            //very brute
+            string answer = sameSigns(a, b);
+            if (answer[0] == '0')
+                return answer.Substring(1);
             return sameSigns(a, b);
         }
         else if (a[0] == '-' && b[0] == '-')
@@ -174,7 +218,6 @@ public static class Kata
             return diffSigns(b, a);
         }
         return "";
-
     }
 }
 
