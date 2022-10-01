@@ -6,14 +6,9 @@ public class Kata
     public static string sumStrings(string a, string b)
     {
         if (String.IsNullOrEmpty(a))
-        {
-            BigInteger onlyB = BigInteger.Parse(b);
-            return onlyB.ToString();
-        } else if (String.IsNullOrEmpty(b))
-        {
-            BigInteger onlyA = BigInteger.Parse(a);
-            return onlyA.ToString();
-        }
+            return b;
+        else if (String.IsNullOrEmpty(b))
+            return a;
 
         BigInteger result = BigInteger.Parse(a) + BigInteger.Parse(b);
         return result.ToString();
