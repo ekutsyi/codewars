@@ -1,20 +1,21 @@
 ﻿using System;
 public static class Kata
 {
-    public static Tuple<bool, int> isNegativeBigger(int length, string a, string b)
+    public static Tuple<bool, int, int> ifBiggerA(int length, string a, string b)
     {
         //a negative, b positive
+        int similarity = 0;
         for (int i = 0; i < length; i++)
         {
             if (Char.GetNumericValue(a[i]) > Char.GetNumericValue(b[i]))
-                return Tuple.Create(true, 1);
+                return Tuple.Create(true, 1, similarity);
             else if (Char.GetNumericValue(a[i]) < Char.GetNumericValue(b[i]))
-                return Tuple.Create(false, 1);
-            else
-                continue;
+                return Tuple.Create(false, 1, similarity);
+            else if (Char.GetNumericValue(a[i]) == Char.GetNumericValue(b[i]))
+                similarity += 1;
         }
 
-        return Tuple.Create(false, 0);
+        return Tuple.Create(false, 0, similarity);
     }
 
     public static Tuple<string, bool> equalStrAdd(int length, string a, string b)
@@ -43,10 +44,42 @@ public static class Kata
     public static string equalStrSub(int length, string a, string b)
     {
         //a negative, b positive
-        var decision = isNegativeBigger(length, a, b);
+        var decision = ifBiggerA(length, a, b);
         if (decision.Item2 == 0)
             return "0";
+        if (!decision.Item1)
+        {
+            string tmp = b;
+            b = a;
+            a = tmp;
+        }
         string answer = "";
+        bool flag = false;
+        for (int i = length - 1; i > decision.Item3; --i)
+        {
+            double xA = Char.GetNumericValue(a[i]);
+            if (flag)
+                xA -= 1;
+            double xB = Char.GetNumericValue(b[i]);
+            double x = xA - xB;
+            if (x < 0)
+            {
+                x += 10;
+                flag = true;
+            }
+            answer = answer.Insert(0, x.ToString());
+        }
+
+        if (Char.GetNumericValue(a[decision.Item3]) != Char.GetNumericValue(b[decision.Item3]))
+        {
+            double x = Char.GetNumericValue(a[decision.Item3]) - Char.GetNumericValue(b[decision.Item3]);
+            if (flag)
+                x -= 1;
+            answer = answer.Insert(0, x.ToString());
+        }
+
+        if (decision.Item1)
+            answer = answer.Insert(0, '-'.ToString());
         return answer;
     }
 
@@ -76,6 +109,12 @@ public static class Kata
             answer = answer.Insert(0, 1.ToString());
         return answer;
     }
+
+    public static string notEqualDiffSigns()
+    {
+        return "";
+    }
+
     public static string sameSigns(string a, string b)
     {
         int aLength = a.Length;
@@ -143,14 +182,17 @@ class Program
 {
     public static void Main()
     {
-        Console.WriteLine(Kata.sumStrings("1212234563767373376736736733", "1212234563767373376736736733"));
+        Console.WriteLine(Kata.sumStrings("1212234563767373376736736753", "-1212234563767373376736736733"));
         Console.WriteLine(Kata.sumStrings("999", "211"));
         Console.WriteLine(Kata.sumStrings("13", "999"));
         Console.WriteLine(Kata.sumStrings("-99", "-9"));
         Console.WriteLine(Kata.sumStrings("-999", "19"));
         Console.WriteLine(Kata.sumStrings("133", "-13"));
         Console.WriteLine(Kata.sumStrings("-32", "12"));
+        Console.WriteLine(Kata.sumStrings("-9872", "9853"));
+        Console.WriteLine(Kata.sumStrings("872", "-853"));
         Console.WriteLine(Kata.sumStrings("12", "-12"));
         Console.WriteLine(Kata.sumStrings("-12", "12"));
+        Console.WriteLine(Kata.sumStrings("-11112", "11111"));
     }
 }
