@@ -20,7 +20,7 @@
             Console.Write("\n");
         }
 
-        int[] output = SnailLibrary.Snail.doJob(input);
+        int[] output = SnailLibrary.Snail.DoJob(input);
         int ind = 0;
 
         Console.Write("Snail array from matrice:\n");

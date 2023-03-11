@@ -58,7 +58,7 @@ namespace SnailTest
 
         public void Test(int[,] array, int[] result)
         {
-            Assert.AreEqual(result, SnailLibrary.Snail.doJob(array));
+            Assert.AreEqual(result, SnailLibrary.Snail.DoJob(array));
         }
     }
 }

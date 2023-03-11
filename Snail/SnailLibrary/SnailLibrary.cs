@@ -2,7 +2,7 @@
 {
     public class Snail
     {
-        public static int[] doJob(int[,] array)
+        public static int[] DoJob(int[,] array)
         {
             int[] ans = new int[array.Length];
 
