@@ -20,6 +20,18 @@ namespace SnailTest
         public void SnailTest2()
         {
             int[,] array = {
+                {1, 2},
+                {4, 5},
+                {7, 8}
+            };
+            var r = new[] { 1, 2, 5, 8, 7, 4 };
+            Test(array, r);
+        }
+
+        [Test]
+        public void SnailTest3()
+        {
+            int[,] array = {
                 {1, 2, 3, 4, 5},
                 {4, 5, 6, 7, 8},
                 {7, 8, 9, 10, 11}
@@ -29,7 +41,7 @@ namespace SnailTest
         }
 
         [Test]
-        public void SnailTest3()
+        public void SnailTest4()
         {
             int[,] array = { { } };
             var r = Array.Empty<int>();
@@ -37,7 +49,7 @@ namespace SnailTest
         }
 
         [Test]
-        public void SnailTest4()
+        public void SnailTest5()
         {
             int[,] array = { {1} };
             var r = new int[] {1};
