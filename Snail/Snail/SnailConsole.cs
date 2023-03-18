@@ -14,8 +14,11 @@
         {
             for (int q = 0; q < length; ++q)
             {
+                if (q == i)
+                    Console.ForegroundColor = ConsoleColor.Red;
                 input[i, q] = rnd.Next(100);
                 Console.Write(input[i, q] + " ");
+                Console.ResetColor();
             }
             Console.Write("\n");
         }
